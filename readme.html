@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>WordPress Docker Environment Documentation</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			line-height: 1.6;
+			margin: 2rem;
+		}
+
+		h2 {
+			color: #2c3e50;
+			border-bottom: 2px solid #3498db;
+		}
+
+		pre {
+			background: #f4f4f4;
+			padding: 1rem;
+			border-radius: 4px;
+		}
+
+		code {
+			font-family: Consolas, monospace;
+		}
+
+		blockquote {
+			background: #f9f9f9;
+			border-left: 4px solid #3498db;
+			margin: 1.5rem 0;
+			padding: 0.5rem 1rem;
+		}
+
+		.note-label {
+			color: #3498db;
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Containerized WordPress Development Environment</h1>
+
+	<h2>Overview</h2>
+	<p>This repository provides a fully containerized WordPress development environment using Docker Compose, building a
+		custom WordPress image (with PHP extensions and Composer) and orchestrating three services:</p>
+	<ul>
+		<li><strong>WordPress</strong> (Apache + PHP)</li>
+		<li><strong>MySQL</strong> (5.7)</li>
+		<li><strong>phpMyAdmin</strong> for database administration</li>
+	</ul>
+	<p>All application code lives in the project root and is bind-mounted directly into the container for live reload of
+		files.</p>
+
+	<h2>Prerequisites</h2>
+	<ul>
+		<li>Docker Engine (v20.10+) and Docker Compose (v2.27+)</li>
+		<li>Basic familiarity with Docker CLI and environment variables</li>
+	</ul>
+
+	<h2>Project Structure</h2>
+	<pre><code>.
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
+├── .gitignore
+├── README.md        # this file
+└── wp-content/      # your custom themes, plugins, and uploads</code></pre>
+	<blockquote><span class="note-label">Note:</span> Unlike setups that mount a nested <code>wordpress/</code> folder,
+		this configuration binds the <strong>project root</strong> (<code>.</code>) to <code>/var/www/html</code> in the
+		container.</blockquote>
+
+	<h2>Installation</h2>
+	<ol>
+		<li><strong>Clone the repository</strong>
+			<pre><code>git clone https://github.com/soufianeElkaabaoui/wp-with-docker.git
+cd your-repo</code></pre>
+		</li>
+		<li><strong>Copy and configure your environment</strong>
+			<pre><code>cp .env.example .env
+# Edit .env with your real credentials</code></pre>
+		</li>
+		<li><strong>Launch the environment</strong>
+			<pre><code>docker compose up -d --build</code></pre>
+		</li>
+	</ol>
+
+	<h2>Configuration</h2>
+	<p>All sensitive values and service settings live in <code>.env</code>. You can adjust database credentials,
+		WordPress salts, and phpMyAdmin settings there. Docker Compose will auto-load <code>.env</code> for both
+		interpolation in <code>docker-compose.yml</code> and container environments.</p>
+
+	<h2>Usage</h2>
+	<ul>
+		<li><strong>WordPress</strong> → <a href="http://localhost:8000">http://localhost:8000</a></li>
+		<li><strong>phpMyAdmin</strong> → <a href="http://localhost:8080">http://localhost:8080</a> (login as
+			<code>root</code> / <code>${MYSQL_ROOT_PASSWORD}</code>)
+		</li>
+	</ul>
+	<p>Common commands:</p>
+	<pre><code># View logs
+docker compose logs -f
+
+# Rebuild only WordPress service
+docker compose up -d --build wordpress
+
+# Stop and remove containers + volumes
+docker compose down --volumes</code></pre>
+
+	<h2>File Layout</h2>
+	<ul>
+		<li><strong>Dockerfile</strong>: Builds a custom WordPress image with required PHP extensions (<code>gd</code>,
+			<code>mysqli</code>), Composer, and cleans up apt caches.
+		</li>
+		<li><strong>docker-compose.yml</strong>: Defines <code>db</code>, <code>wordpress</code>, and
+			<code>phpmyadmin</code> services. Uses a bind mount of <code>.</code> → <code>/var/www/html</code> for live
+			code updates.
+		</li>
+		<li><strong>.env.example</strong>: Template for environment variables. Rename to <code>.env</code> and fill with
+			real values.</li>
+		<li><strong>.gitignore</strong>: Avoids committing secrets, dependencies, OS files, and IDE settings.</li>
+	</ul>
+
+	<h2>Contributing</h2>
+	<ol>
+		<li>Fork and create a feature branch</li>
+		<li>Make changes and commit with clear messages</li>
+		<li>Open a pull request; update <code>.env.example</code> if new variables are required</li>
+	</ol>
+
+	<h2>License</h2>
+	<p>This project is licensed under the MIT License. See the <a href="LICENSE">LICENSE</a> file for details.</p>
+</body>
+
+</html>

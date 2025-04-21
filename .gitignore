@@ -1,0 +1,71 @@
+# ── Project Configuration ─────────────────────────────────────────────────────
+# Environment variables (use .env.example in repo instead) 
+.env
+
+# Local wp‑config override (we rely on Docker's auto‑generation or custom mounted file)
+wp-config.php
+
+# Composer dependencies (run composer install locally)
+vendor/
+
+# Node.js dependencies (run npm install locally)
+node_modules/
+
+# Jetpack backup constants
+jetpack-sync-debug.log
+
+# ── WordPress Core & Content ─────────────────────────────────────────────────
+# Exclude core files; track only wp-content (themes/plugins/uploads)
+*.php
+wp-admin/
+wp-includes/
+
+# Allow commits in wp-content for custom code:
+!wp-content/
+!wp-content/plugins/
+!wp-content/themes/
+
+# ── Docker & Build Artifacts ──────────────────────────────────────────────────
+# Docker Compose overrides and local build files
+docker-compose.override.yml
+docker-compose.*.yml
+.dockerignore
+
+# Build caches
+*.cache
+tmp/
+build/
+
+# ── IDE & Editor Settings ────────────────────────────────────────────────────
+# VS Code
+.vscode/
+# PHPStorm / IntelliJ
+.idea/
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ── OS Generated Files ────────────────────────────────────────────────────────
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ── Logs & Reports ────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-error.log*
+phpunit.result.cache
+
+# ── Miscellaneous ─────────────────────────────────────────────────────────────
+# Coverage reports
+coverage/
+htmlcov/
+
+# Ignore swap and temp files
+*~
+*.swp
