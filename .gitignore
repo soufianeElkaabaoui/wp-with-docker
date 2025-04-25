@@ -19,6 +19,7 @@ jetpack-sync-debug.log
 *.php
 wp-admin/
 wp-includes/
+wp-content/uploads/
 
 # Allow commits in wp-content for custom code:
 !wp-content/
