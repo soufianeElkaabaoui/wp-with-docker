@@ -3,7 +3,7 @@ version: '3.8'
 services:
   db:
     image: mysql:5.7
-    container_name: wp_db
+    container_name: wp_restau_abou_sohaib_db
     restart: on-failure
     env_file:
       - .env
@@ -12,7 +12,7 @@ services:
 
   wordpress:
     build: .
-    container_name: wp_app
+    container_name: wp_restau_abou_sohaib_app
     depends_on:
       - db
     ports:
@@ -25,7 +25,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: wp_phpmyadmin
+    container_name: wp_restau_abou_sohaib_phpmyadmin
     depends_on:
       - db
     ports:
