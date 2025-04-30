@@ -22,6 +22,7 @@ services:
       - .env
     volumes:
       - ./wp-content:/var/www/html/wp-content
+      - ./php-overrides.ini:/usr/local/etc/php/conf.d/php-overrides.ini
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
